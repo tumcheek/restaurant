@@ -1,5 +1,8 @@
 package restaurant.view;
 
+import java.sql.*;
+
+import restaurant.controllers.DatabaseManager;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
@@ -18,6 +21,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,28 +104,24 @@ public class MenuView {
         BorderPane.setMargin(buttonsBox, new Insets(10)); // Отступы кнопок
 
         // Добавление информации в таблицу
-        tableView.getItems().addAll(
-                new MenuEntry("Борщ", 80.0),
-                new MenuEntry("Вареники", 60.0),
-                new MenuEntry("Шницель", 120.0),
-                new MenuEntry("Картопляники", 70.0),
-                new MenuEntry("Сирники", 50.0),
-                new MenuEntry("Курка по-київськи", 140.0),
-                new MenuEntry("Голубці", 90.0),
-                new MenuEntry("Млинці з начинкою", 65.0),
-                new MenuEntry("Гречаники", 75.0),
-                new MenuEntry("Салат 'Олів' ", 55.0),
-                new MenuEntry("Риба печена", 110.0),
-                new MenuEntry("Картопля фрі", 45.0),
-                new MenuEntry("Буряк смажений", 40.0),
-                new MenuEntry("М'ясне рагу", 100.0),
-                new MenuEntry("Суп 'Солянка'", 85.0),
-                new MenuEntry("Омлет", 50.0),
-                new MenuEntry("Каша гречана", 45.0),
-                new MenuEntry("Плов", 95.0),
-                new MenuEntry("Печиво 'Макароні'", 40.0),
-                new MenuEntry("Чай з лимоном", 20.0)
-        );
+        try (Connection connection = DatabaseManager.getConnection()) {
+            // Подготовка SQL-запроса
+            String sql = "SELECT dishes, price FROM menu";
+            try (PreparedStatement statement = connection.prepareStatement(sql);
+                 ResultSet resultSet = statement.executeQuery()) {
+                // Обработка результатов запроса
+                while (resultSet.next()) {
+                    String dishName = resultSet.getString("dishes");
+                    double price = resultSet.getDouble("price");
+                    // Создаем объект MenuEntry и добавляем его в таблицу
+                    MenuEntry entry = new MenuEntry(dishName, price);
+                    tableView.getItems().add(entry);
+                }
+            }
+        } catch (SQLException e) {
+            // Обработка ошибок, если они возникнут
+            e.printStackTrace();
+        }
         view = layout;
     }
 
