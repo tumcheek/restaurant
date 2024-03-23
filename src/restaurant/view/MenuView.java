@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +80,13 @@ public class MenuView {
                 tableView.getItems().remove(selectedEntry);
             }
         });
+        addButton.setOnAction(event -> {
+            AddNewDishes newdishes = new AddNewDishes();
+            Parent openMenuParent = newdishes.getView();
+            Stage menuStage = new Stage();
+            menuStage.setScene(new Scene(openMenuParent, 600, 500));
+            menuStage.show();
+        });
 
         // Размещаем элементы в BorderPane
         layout.setTop(menuLabel);
@@ -113,10 +122,6 @@ public class MenuView {
                 new MenuEntry("Печиво 'Макароні'", 40.0),
                 new MenuEntry("Чай з лимоном", 20.0)
         );
-
-
-
-
         view = layout;
     }
 
