@@ -72,6 +72,13 @@ public class MenuView {
 
         buttonsBox.getChildren().addAll(addButton, subtractButton);
 
+        subtractButton.setOnAction(event -> {
+            MenuEntry selectedEntry = tableView.getSelectionModel().getSelectedItem();
+            if (selectedEntry != null) {
+                tableView.getItems().remove(selectedEntry);
+            }
+        });
+
         // Размещаем элементы в BorderPane
         layout.setTop(menuLabel);
         layout.setCenter(tableView);
