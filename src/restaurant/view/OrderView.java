@@ -1,7 +1,12 @@
 package restaurant.view;
+
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.geometry.Insets;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * The OrderView class represents the view for making an order in the restaurant application.
@@ -16,8 +21,29 @@ public class OrderView {
      * Initializes the layout and sets up necessary components for the order view.
      */
     public OrderView() {
+        ListView<String> menuList = new ListView<>();
+
+        Button addDishToOrderButton = new Button("Додати страву");
+        Button removeDishFromOrderButton = new Button("Видалити страву");
+        Button getBill = new Button("Вивести рахунок");
+
+        addDishToOrderButton.setStyle("-fx-font-size: 16px;" + "-fx-width: 120px;");
+        removeDishFromOrderButton.setStyle("-fx-font-size: 16px;" + "-fx-width: 120px;");
+        getBill.setStyle("-fx-font-size: 16px;" + "-fx-width: 120px;");
+
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(addDishToOrderButton, removeDishFromOrderButton);
+        HBox.setHgrow(addDishToOrderButton, Priority.ALWAYS);
+        HBox.setHgrow(removeDishFromOrderButton, Priority.ALWAYS);
+
+        HBox buttonContainer = new HBox(145);
+        buttonContainer.getChildren().addAll(buttonBox, getBill);
+
+        VBox.setMargin(buttonContainer, new Insets(10, 0, 0, 0));
+
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(new Label("Тут будуть замовлення"));
+        layout.getChildren().addAll(menuList, buttonContainer);
+        layout.setPadding(new Insets(15));
         layout.setAlignment(javafx.geometry.Pos.CENTER);
 
         view = layout;
