@@ -7,6 +7,9 @@ import javafx.scene.control.ListView;
 import javafx.geometry.Insets;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import restaurant.controllers.BillViewController;
+import javafx.stage.Stage;
+import restaurant.controllers.MainMenuController;
 
 /**
  * The OrderView class represents the view for making an order in the restaurant application.
@@ -15,17 +18,21 @@ import javafx.scene.layout.Priority;
 public class OrderView {
 
     private final VBox view;
+    private final BillViewController billController;
 
     /**
      * Constructs an OrderView object.
      * Initializes the layout and sets up necessary components for the order view.
      */
-    public OrderView() {
+    public OrderView(Stage stage) {
+        this.billController = new BillViewController(stage);
         ListView<String> menuList = new ListView<>();
 
         Button addDishToOrderButton = new Button("Додати страву");
         Button removeDishFromOrderButton = new Button("Видалити страву");
         Button getBill = new Button("Вивести рахунок");
+
+        getBill.setOnAction(e -> billController.handleGetBill());
 
         addDishToOrderButton.setStyle("-fx-font-size: 16px;" + "-fx-width: 120px;");
         removeDishFromOrderButton.setStyle("-fx-font-size: 16px;" + "-fx-width: 120px;");

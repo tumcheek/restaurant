@@ -28,7 +28,7 @@ public class MainMenuController {
      * Creates an OrderView and displays it in a new stage.
      */
     public void handleMakeOrder() {
-        OrderView orderView = new OrderView();
+        OrderView orderView = new OrderView(stage);
         Parent orderParent = orderView.getView();
         Stage orderStage = new Stage();
         orderStage.setTitle("Замовлення");
